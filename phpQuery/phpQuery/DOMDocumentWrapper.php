@@ -54,7 +54,7 @@ class DOMDocumentWrapper {
 	public function load($markup, $contentType = null, $newDocumentID = null) {
 //		phpQuery::$documents[$id] = $this;
 		$this->contentType = strtolower($contentType);
-		if ($markup instanceof DOMDOCUMENT) {
+		if ($markup instanceof \DOMDOCUMENT) {
 			$this->document = $markup;
 			$this->root = $this->document;
 			$this->charset = $this->document->encoding;
@@ -65,7 +65,7 @@ class DOMDocumentWrapper {
 		if ($loaded) {
 //			$this->document->formatOutput = true;
 			$this->document->preserveWhiteSpace = true;
-			$this->xpath = new DOMXPath($this->document);
+			$this->xpath = new \DOMXPath($this->document);
 			$this->afterMarkupLoad();
 			return true;
 			// remember last loaded document
@@ -124,7 +124,7 @@ class DOMDocumentWrapper {
 	protected function documentCreate($charset, $version = '1.0') {
 		if (! $version)
 			$version = '1.0';
-		$this->document = new DOMDocument($version, $charset);
+		$this->document = new \DOMDocument($version, $charset);
 		$this->charset = $this->document->encoding;
 //		$this->document->encoding = $charset;
 		$this->document->formatOutput = true;
@@ -432,7 +432,7 @@ class DOMDocumentWrapper {
 	public function import($source, $sourceCharset = null) {
 		// TODO charset conversions
 		$return = array();
-		if ($source instanceof DOMNODE && !($source instanceof DOMNODELIST))
+		if ($source instanceof \DOMNODE && !($source instanceof \DOMNODELIST))
 			$source = array($source);
 //		if (is_array($source)) {
 //			foreach($source as $node) {
@@ -458,7 +458,7 @@ class DOMDocumentWrapper {
 //			else
 //				return $this->import($fake->root->childNodes);
 //		}
-		if (is_array($source) || $source instanceof DOMNODELIST) {
+		if (is_array($source) || $source instanceof \DOMNODELIST) {
 			// dom nodes
 			self::debug('Importing nodes to document');
 			foreach($source as $node)
@@ -489,9 +489,9 @@ class DOMDocumentWrapper {
 		if (! $charset)
 			$charset = $this->charset;
 //	$fake->documentCreate($this->charset);
-		if ($source instanceof DOMNODE && !($source instanceof DOMNODELIST))
+		if ($source instanceof \DOMNODE && !($source instanceof \DOMNODELIST))
 			$source = array($source);
-		if (is_array($source) || $source instanceof DOMNODELIST) {
+		if (is_array($source) || $source instanceof \DOMNODELIST) {
 			// dom nodes
 			// load fake document
 			if (! $this->documentFragmentLoadMarkup($fake, $charset))
@@ -577,11 +577,11 @@ class DOMDocumentWrapper {
 	 * @return string
 	 */
 	public function markup($nodes = null, $innerMarkup = false) {
-		if (isset($nodes) && count($nodes) == 1 && $nodes[0] instanceof DOMDOCUMENT)
+		if (isset($nodes) && count($nodes) == 1 && $nodes[0] instanceof \DOMDOCUMENT)
 			$nodes = null;
 		if (isset($nodes)) {
 			$markup = '';
-			if (!is_array($nodes) && !($nodes instanceof DOMNODELIST) )
+			if (!is_array($nodes) && !($nodes instanceof \DOMNODELIST) )
 				$nodes = array($nodes);
 			if ($this->isDocumentFragment && ! $innerMarkup)
 				foreach($nodes as $i => $node)
